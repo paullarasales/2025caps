@@ -1,8 +1,9 @@
+from study_duration_model import StudyDurationModel
 study_topics = [
-    {"topic": "Mathematics", "difficulty": 3, "duration": 2},
-    {"topic": "Science", "difficulty": 2, "duration": 1.5},
-    {"topic": "History", "difficulty": 4, "duration": 3},
-    {"topic": "English", "difficulty": 1, "duration": 1}
+    {"topic": "Mathematics", "difficulty": 3},
+    {"topic": "Science", "difficulty": 2},
+    {"topic": "History", "difficulty": 4,},
+    {"topic": "English", "difficulty": 1}
 ]
 
 def create_study_schedule(total_hours):
@@ -10,10 +11,14 @@ def create_study_schedule(total_hours):
     schedule = []
     hours_left = total_hours
 
-    sorted_topics = sorted(study_topics, key=lambda x: x["difficulty"], reverse=True)
+    duration_model = StudyDurationModel()
 
-    for topic in sorted_topics:
-        if hours_left >= topic["duration"]:
+    for topic in study_topics:
+        predicted_duration = duration_model.predict_duration(topic["difficulty"])
+
+        if hours_left >= predicted_duration:
+            topic["duration"] = predicted_duration
             schedule.append(topic)
-            hours_left -= topic["duration"]
+            hours_left -= predicted_duration
+
     return schedule

@@ -8,6 +8,5 @@ def plot_schedule(schedule):
     plt.xlabel('Topics')
     plt.ylabel('Study Durations (hours)')
     plt.title('Study Plan')
-    plt.show()
+    plt.show(block=False)
 
-    
